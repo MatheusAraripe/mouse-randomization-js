@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.98.0">
+  <title>Sample size tests</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/cover/">
+
+  <link href="./styles/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #sample{
+      margin-bottom: 2rem;
+      font-size: 19px;
+      text-align: center;
+    }
+
+    #sample2{
+      margin-bottom: 2rem;
+      font-size: 19px;
+      text-align: center;
+    }
+
+    #sample3{
+      margin-bottom: 2rem;
+      font-size: 19px;
+      text-align: center;
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="./styles/cover.css" rel="stylesheet">
+</head>
+<!--<script src="https://cdn.jsdelivr.net/npm/statsmodels@0.10.2/build/bundles/statsmodels.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/scipyjs@1.4.1/dist/scipy.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/jstat@1.9.4/dist/jstat.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+
+
+<body class="d-flex container-fluid text-white bg-dark">
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="mouse_ultima_versao.html">Make the mouse randomization</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-warning" aria-current="page" href="tests1.html">Check sample size</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+
+
+    <main class="px-3" style="margin-top: 50px;">
+    <center>
+      <h2 class="display-5 fw-bold">Student's t-test</h2>
+    </center>
+      <div class="col-lg-6 mx-auto">
+        <p style="font-size: 20px; margin-Top:20px" align="justify">
+            This test is used in cases of quantitative analysis and when the number of groups used is equal to two.
+        </p>
+        <p style="font-size: 18px; margin-Top:20px" align="justify">This program considers an effect size of 0.8 by default. If no value is entered for
+        this parameter, the default will be considered.</p>
+
+
+        <div class="col-md-10 mx-auto">
+          <form class="p-4 p-md-5 rounded-3" id = 'input'>
+            <div class="form-floating mb-3">
+              <input type="number" min="0" step="0.01" class="form-control bg-dark text-white" id="effect_size"
+                placeholder="Complete name">
+              <label for="floatingPassword" style="color: #FFFFFF; opacity: 0.5">effect size: 0.8</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" min="0" step = "0.01" class="form-control bg-dark text-white" id="alpha" placeholder="Message">
+              <label for="floatingPassword" style="color: #FFFFFF;opacity: 0.5">alpha: 0.05</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" min="0" step="0.01" class="form-control bg-dark text-white" id="power" placeholder="Message">
+                <label for="floatingPassword" style="color: #FFFFFF;opacity: 0.5">power: 0.8</label>
+              </div>
+            <button class="w-100 btn btn-lg" style="color: #37B8E7; border-color: #37B8E7; border-radius: 10px;"
+              type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+
+
+      <div id = "sample" class="text-warning">
+      </div>
+
+
+
+        <div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <center>
+          <h2 class="display-5 fw-bold">ANOVA test</h2>
+        </center>
+          <div class="col-lg-6 mx-auto">
+            <p style="font-size: 20px; margin-Top:20px" align="justify">
+                This test is used in cases of quantitative analysis and when the number of groups used is greater than two.
+            </p>
+
+            <div class="col-md-10 mx-auto">
+              <form class="p-4 p-md-5 rounded-3" id = 'input2'>
+                <div class="form-floating mb-3">
+                  <input type="number" min="3" class="form-control bg-dark text-white" id="groups" placeholder="Message">
+                  <label for="floatingPassword" style="color: #FFFFFF;opacity: 0.5">Number of groups</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="number" min="0" step ="0.01" class="form-control bg-dark text-white" id="alpha2" placeholder="Message">
+                  <label for="floatingPassword" style="color: #FFFFFF;opacity: 0.5">alpha: 0.05</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" min="0" step ="0.01"  class="form-control bg-dark text-white" id="power2" placeholder="Message">
+                    <label for="floatingPassword" style="color: #FFFFFF;opacity: 0.5">power: 0.8</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="number" min="0" step="0.01" class="form-control bg-dark text-white" id="effect_size2"
+                    placeholder="Complete name">
+                  <label for="floatingPassword" style="color: #FFFFFF;opacity: 0.5">effect size: 0.8</label>
+                </div>
+                <button onclick = "calculate ()" class="w-100 btn btn-lg" style="color: #37B8E7; border-color: #37B8E7; border-radius: 10px;"
+                  type="submit">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <div id = "sample2" class="text-warning">
+        </div>
+
+
+
+        <div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <center>
+          <h2 class="display-5 fw-bold">Binomial test</h2>
+        </center>
+          <div class="col-lg-6 mx-auto">
+            <p style="font-size: 20px; margin-Top:20px" align="justify">
+                This test is used in cases of qualitative analysis and when the number of groups used is equal to two.
+            </p>
+
+            <div class="col-md-10 mx-auto">
+              <form class="p-4 p-md-5 rounded-3" id = 'input3'>
+                <div class="form-floating mb-3">
+                  <input type="number" min="0" step = "0.01" class="form-control bg-dark text-white" id="alpha3" placeholder="Message">
+                  <label for="floatingPassword" style="color: #FFFFFF;opacity:0.5">alpha: 0.05</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" min="0" step= "0.01" class="form-control bg-dark text-white" id="beta" placeholder="Message">
+                    <label for="floatingPassword" style="color: #FFFFFF;opacity:0.5">power: 0.8</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="number" min="0" max = "100" class="form-control bg-dark text-white" id="erro" placeholder="Message">
+                  <label for="floatingPassword" style="color: #FFFFFF;opacity:0.5">Error 20%</label>
+                </div>
+                <button class="w-100 btn btn-lg" style="color: #37B8E7; border-color: #37B8E7; border-radius: 10px;"
+                  type="submit">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <div id = "sample3" class="text-warning">
+        </div>
+
+
+  <script>
+
+// T test
+     document.getElementById("input").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const effectSize = parseFloat(document.getElementById("effect_size").value.replace(",", "."));
+            const alpha = parseFloat(document.getElementById("alpha").value.replace(",", "."));
+            const power = parseFloat(document.getElementById("power").value.replace(",", "."));
+
+            const zAlpha = jStat.normal.inv(1 - alpha / 2, 0, 1);
+            const zBeta = jStat.normal.inv(power, 0, 1);
+
+            const sampleSize = Math.ceil((zAlpha + zBeta) ** 2 / effectSize ** 2);
+
+            document.getElementById("sample").textContent = "Sample Size: " + sampleSize + " animals in group 1 and " + sampleSize + " animals in group 2";
+        });
+
+
+
+	 
+    
+  
+  
+  
+  </script>
+
+
+<script>
+  //Anova  
+	function calculate() {
+      // Get the input values
+      event.preventDefault();
+	  
+	  var p = parseInt(document.getElementById("groups").value); // Number of groups
+      var alpha = parseFloat(document.getElementById("alpha2").value); // Alpha level
+      var f = parseFloat(document.getElementById("effect_size2").value); // Effect size
+      var power = parseFloat(document.getElementById("power2").value); // Power level
+
+      // Validate the input values
+      if (isNaN(p) || p < 2) {
+        alert("Please enter a valid number of groups (at least 2)");
+        return;
+      }
+      if (isNaN(alpha) || alpha <= 0 || alpha >= 1) {
+        alert("Please enter a valid alpha level (between 0 and 1)");
+        return;
+      }
+      if (isNaN(f) || f <= 0) {
+        alert("Please enter a valid effect size (positive)");
+        return;
+      }
+      if (isNaN(power) || power <= 0 || power >= 1) {
+        alert("Please enter a valid power level (between 0 and 1)");
+        return;
+      }
+
+      // Calculate the sample size using the formula
+      var beta = 1 - power; // Type II error rate
+      var u_alpha = jStat.normal.inv(1 - alpha / p, 0, 1); // Critical value for alpha level
+      var u_beta = jStat.normal.inv(1 - beta, 0, 1); // Critical value for power level
+      var n = Math.ceil((p - 1) * (Math.pow(f, -2) * u_alpha + u_beta) / Math.pow(f, 2)); // Sample size per group
+      var N = n * p; // Total sample size
+
+      // Display the result
+      document.getElementById("sample2").innerHTML = "Sample size per group: " + n + "<br>Total sample size: " + N;
+    }
+  </script>
+
+
+ <script>
+    // Function to calculate the inverse of the standard normal distribution using approximation
+    function inverseNormalCDF(p) {
+      const a1 =  -3.969683028665376e+01;
+      const a2 =   2.209460984245205e+02;
+      const a3 =  -2.759285104469687e+02;
+      const a4 =   1.383577518672690e+02;
+      const a5 =  -3.066479806614716e+01;
+      const a6 =   2.506628277459239e+00;
+
+      const b1 =  -5.447609879822406e+01;
+      const b2 =   1.615858368580409e+02;
+      const b3 =  -1.556989798598866e+02;
+      const b4 =   6.680131188771972e+01;
+      const b5 =  -1.328068155288572e+01;
+
+      const c1 =  -7.784894002430293e-03;
+      const c2 =  -3.223964580411365e-01;
+      const c3 =  -2.400758277161838e+00;
+      const c4 =  -2.549732539343734e+00;
+      const c5 =   4.374664141464968e+00;
+      const c6 =   2.938163982698783e+00;
+
+      const d1 =   7.784695709041462e-03;
+      const d2 =   3.224671290700398e-01;
+      const d3 =   2.445134137142996e+00;
+      const d4 =   3.754408661907416e+00;
+
+      const pLow = 0.02425;
+      const pHigh = 1 - pLow;
+
+      let x;
+
+      if (p < pLow) {
+        const q = Math.sqrt(-2 * Math.log(p));
+        x =
+          (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
+          ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+      } else if (p <= pHigh) {
+        const q = p - 0.5;
+        const r = q * q;
+        x =
+          (((((a1 * r + a2) * r + a3) * r + a4) * r + a5) * r + a6) * q /
+          (((((b1 * r + b2) * r + b3) * r + b4) * r + b5) * r + 1);
+      } else {
+        const q = Math.sqrt(-2 * Math.log(1 - p));
+        x =
+          -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
+          ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+      }
+
+      return x;
+    }
+
+    function binomialSampleSize(alpha, power, e) {
+      const p1 = 0.5;
+      const p2 = p1 + (e * p1 / 100);
+
+      const beta = 1 - power;
+      alpha = alpha / 2;
+
+      const z2 = inverseNormalCDF(beta);
+      const z1 = -1 * inverseNormalCDF(alpha);
+
+      const a1 = Math.sqrt(p2 * (1 - p2));
+      const b1 = Math.sqrt(p1 * (1 - p1));
+
+      const a = z2 * a1;
+      const b = z1 * b1;
+      const c = p1 - p2;
+
+      const t = a - b;
+
+      const n = (t / c) ** 2;
+
+      return Math.round(n);
+    }
+
+    // Get form and result elements from the DOM
+    const form = document.getElementById('input3');
+    const resultDiv = document.getElementById('sample3');
+
+    // Function to handle form submission
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      // Get the input values
+      const alpha = parseFloat(document.getElementById('alpha3').value);
+      const power = parseFloat(document.getElementById('beta').value);
+      const error = parseFloat(document.getElementById('erro').value);
+
+      // Call the sample size calculator function
+      const sampleSize = binomialSampleSize(alpha, power, error);
+
+      // Display the result
+      resultDiv.innerHTML = `<p>Required Sample Size: ${sampleSize}</p>`;
+    }
+
+    // Attach form submission event listener
+    form.addEventListener('submit', handleSubmit);
+  </script>
+
+
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
